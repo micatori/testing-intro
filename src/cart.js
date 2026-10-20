@@ -19,7 +19,14 @@ function addToCart(cart, product, count) {
   return [...cart, {...product, quantity: count}];
 }
 
-function changeQuantity() { return notImplemented(); }
+function changeQuantity(cart, id, count) {
+  if (count <= 0) throw new RangeError('не принимает нулевое количество');
+  const item = cart.find((item) => item.id === id);
+  if (!item) return cart;
+  if (count > item.stock) throw new RangeError('не позволяет указать количество больше остатка');
+  return cart.map((el) => el.id === id ? { ...el, quantity: count} : el);
+}
+
 function removeFromCart() { return notImplemented(); }
 function calculateCartSubtotal() { return notImplemented(); }
 function calculateOrderTotal() { return notImplemented(); }
